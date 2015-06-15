@@ -3,7 +3,7 @@ date_default_timezone_set("Europe/Athens");
 require 'libs/Smarty/libs/Smarty.class.php';
 global $smarty;
 //change the default  from some endpoint to
-//whatever whatever you prefer
+//whatever mvc end point you prefer
 DEFINE("DEFAULT","SomeEndpoint" );
 DEFINE("ERROR","Error" );
 $smarty= new Smarty();
