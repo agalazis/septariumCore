@@ -1,6 +1,7 @@
 <?php
 namespace app\model;
 use app;
+use core\Model;
 /**
  * Error model Class
  *
@@ -31,7 +32,7 @@ use app;
  * @license    http://opensource.org/licenses/MIT  MIT License
  *
  */
-class Error {
+class Error extends Model{
     /**
      *
      * @var string $message the message for he error

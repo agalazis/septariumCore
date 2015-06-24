@@ -1,5 +1,8 @@
 <?php
 namespace core;
+use app\interfaces\Configurable;
+use core\Exception\CoreException;
+
 /**
  * RouteHelper class to provide route analysis support
  *
@@ -32,7 +35,13 @@ namespace core;
  * @abstract
  */
 abstract class View{
-
+    private static $renderTypes=array(
+        "text/html"=>"renderHtml",
+        "application/xhtml+xml"=>"renderHtml",
+        "text/xml"=>"renderXML",
+        "text/xml"=>"renderXML",
+        "application/json"=>"renderJSON",
+    );
     /*
      * @var array $config associative array used for loading configuration variables
      * @access protected
@@ -56,7 +65,9 @@ abstract class View{
      */
     function __construct($model){
         $this->model = $model;
-        $this->renderHtml();
+        $this->render();
+
+
     }
     /*retruns a tag for for linking an asset on page
     * @param object $model
@@ -68,18 +79,62 @@ abstract class View{
         return $parts[0].$assetLink.$parts[1];
 
     }
-
+    private function render(){
+        $this->loadConfig();
+        if (defined ('CONTENT_TYPE')) {
+            $contentType =constant('CONTENT_TYPE');
+        }else{
+            $contentType="text/html";
+        }
+        $renderFunction=self::$renderTypes[$contentType];
+        if ($renderFunction&&method_exists ($this,$renderFunction)) {
+            $this->$renderFunction($contentType);
+        }else{
+            //falls back to HTML
+            $this->renderHtml();
+        }
+    }
     /*
      *
      * Renders the basic html document structure
-     * @access public
+     * @access private
      * @return void
      */
-    function renderHtml(){
-        $this->loadConfig();
+    private function renderHtml(){
+        header("Content-Type: text/html; charset=utf-8");
         $this->head();
         $this->body();
         $this->footer();
+    }
+    /*
+     *
+     * Just render the JSON for the model
+     * @access private
+     * @return void
+     */
+    private function renderJSON($contentType="application/json"){
+        header("Content-Type: ".trim($contentType)."; charset=utf-8");
+        $json=$this->model->toJSON();
+        if ( $json) {
+            echo $json;
+        }else{
+            throw new CoreException("406","Content type not acceptable for this endpoint");
+        }
+    }
+    /*
+     *
+     * Just render the XML for the model
+     * @access private
+     * @return void
+     */
+    private function renderXML($contentType="application/xml"){
+        header("Content-Type: ".trim($contentType)."; charset=utf-8");
+        $xml=$this->model->toXML();
+        if (is_string($xml)) {
+            echo $xml;
+        }else {
+            throw new CoreException("406","Content type not acceptable for this endpoint");
+        }
     }
     /*
      *

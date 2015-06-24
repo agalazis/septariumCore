@@ -19,3 +19,4 @@
         </div>
     </div>
 </div>
+{$BODY_ASSET_TAGS}

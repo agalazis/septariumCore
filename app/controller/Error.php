@@ -33,8 +33,8 @@
  */
 namespace app\controller;
 use app;
-
-class Error {
+use core\Controller;
+class Error extends  Controller {
     /*
      * @staticVar array $http private array that contains all the possible http codes
      * @access private
@@ -90,12 +90,19 @@ class Error {
      * @param app\model\Error $model the model that should contain the information about the error
      * @return void
      */
-    function __construct($model){
+    protected function processRequest($model){
         global $error;
-        header(self::$http[$error->getCodeNumber()]);
-        $model->setErrorCode($error->getCodeNumber());
-        $model->setMessage($error->getMessage());
-        $model->setDetails(self::$http[$error->getCodeNumber()]);
+        if (isset($error)) {
+            header(self::$http[$error->getCodeNumber()]);
+            $model->setErrorCode($error->getCodeNumber());
+            $model->setMessage($error->getMessage());
+            $model->setDetails(self::$http[$error->getCodeNumber()]);
+            return;
+        }
+        header(self::$http[404]);
+        $model->setErrorCode(404);
+        $model->setMessage("No Error found");
+        $model->setDetails(self::$http[404]);
     }
 }
 ?>

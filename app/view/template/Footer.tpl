@@ -1,8 +1,8 @@
 
-</div>
+
 <footer class="col-md-12">
-<div class="leftSide">&copy; Left footer here </div>
-    <div class="rightSide">Right footer here</div>
+<div class="leftSide"> </div>
+    <div class="rightSide"></div>
 </footer>
-</BODY>
-</HTML>
+</body>
+</html>

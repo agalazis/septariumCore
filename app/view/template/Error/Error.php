@@ -1,6 +1,6 @@
 <?php
 namespace app\view\template\Error;
-use app;
+use app\view\AppView;
 use core;
 /**
  * Error view Class
@@ -33,7 +33,7 @@ use core;
  * @license    http://opensource.org/licenses/MIT  MIT License
  *
  */
-class Error extends app\view\AppView
+class Error extends AppView
 {
 
     /**
@@ -58,6 +58,7 @@ class Error extends app\view\AppView
         $smarty->assign("ERROR_CODE", $this->model->getErrorCode());
         $smarty->assign("MESSAGE",$this->model->getMessage() );
         $smarty->assign("DETAILS",$this->model->getDetails() );
+        $smarty->assign("BODY_ASSET_TAGS",$this->getJSTags());
         $smarty->display(core\RouteHelper::getTemplatePath()."/index.tpl");
     }
     /**

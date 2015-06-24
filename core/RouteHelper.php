@@ -107,8 +107,9 @@ class RouteHelper {
          if  (class_exists($modelClass)&&class_exists($viewClass)&&class_exists($controllerClass)){
             $model=new $modelClass();
             new $controllerClass($model);
-            new $viewClass($model);
-        }else{
+             new $viewClass($model);
+
+         }else{
 
             throw new Exception\CoreException(404, "Not found");
         }

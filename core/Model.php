@@ -1,11 +1,10 @@
 <?php
-
-namespace app\interfaces;
 /**
- *Populate interface provide populate function for populating objects
+ * The Model abstract class provides basic functionality
+ * for XML JSON serialization of the models
  *
- * Responsible for the rendering of the Error view also loads different asset configuration for it
- * by overriding loadConfig(so that configuration is loaded from the .ini in this directory)
+ * This class provides static functions used to analyse
+ * the path/current route of the application and to dispatch requests
  *
  *Copyright (c) 2015 Andreas Galazis
  *
@@ -26,18 +25,33 @@ namespace app\interfaces;
  *LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *THE SOFTWARE.
- *
+ * @package core
  * @author     Andreas Galazis <andreas@linx.ninja>
  * @copyright  2015 Andreas Galazis
  * @license    http://opensource.org/licenses/MIT  MIT License
+ * @abstract
  */
 
-interface Populateable
-{
-    /* function for populating objects
-     * @public
-     * @param mixed $data the data to be used for populating the object
-     */
-    public function populate($data);
-
+namespace core;
+use core\Interfaces\JSONSerializable;
+use core\Interfaces\XMLSerializable;
+abstract class Model implements JSONSerializable, XMLSerializable{
+    /*
+    *
+    * A method that provides convertion to JSON
+    * @access public
+     * @return string
+    */
+    public function toJSON(){
+        return json_encode($this);
+    }
+    /*
+    *
+    * A method that provides convertion toXML
+    * @return string
+    * @access pubic
+    */
+    public function toXML(){
+        return  xmlrpc_encode($this);
+    }
 }

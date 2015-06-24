@@ -68,6 +68,12 @@ abstract class AppView extends core\View
         global $assetTags,$smarty;
         $smarty->assign("HAEDASSETTAGS",$head);
         $this->title();
+        $jsonData=@file_get_contents("app/JSON/Menu.json");
+        if ($jsonData===false){
+            throw new coreException(404,"Menu Not found");
+        }
+        $menu=json_decode($jsonData,true);
+        $smarty->assign("MENU",$menu);
         $smarty->display("app/view/template/Header.tpl");
     }
     /**
@@ -91,16 +97,17 @@ abstract class AppView extends core\View
     }
     protected function getJSTags(){
         $assetTags="";
-        if (isset($this->config["assetPath"])&&isset($this->config["js"])) {
-            for ($i = 0; $i < count($this->config["js"]); $i++) {
-                $assetTags.=$this->getAssetTag($this->config["assetPath"]."js/".$this->config["js"][$i],"js");
-            }
-        }
         if (isset($this->config["cdnJs"])) {
             for ($i = 0; $i < count($this->config["cdnJs"]); $i++) {
                 $assetTags.=$this->getAssetTag( $this->config["cdnJs"][$i], "js");
             }
         }
+        if (isset($this->config["assetPath"])&&isset($this->config["js"])) {
+            for ($i = 0; $i < count($this->config["js"]); $i++) {
+                $assetTags.=$this->getAssetTag($this->config["assetPath"]."js/".$this->config["js"][$i],"js");
+            }
+        }
+
         return $assetTags;
     }
     /**
