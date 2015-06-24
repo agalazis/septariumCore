@@ -68,13 +68,7 @@ abstract class AppView extends core\View
         global $assetTags,$smarty;
         $smarty->assign("HAEDASSETTAGS",$head);
         $this->title();
-        $jsonData=@file_get_contents("app/JSON/Menu.json");
-        if ($jsonData===false){
-            throw new coreException(404,"Menu Not found");
-        }
-        $menu=json_decode($jsonData,true);
-        $smarty->assign("MENU",$menu);
-        $smarty->display("app/view/template/Header.tpl");
+        
     }
     /**
      * loads configuration from ini file

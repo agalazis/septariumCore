@@ -4,7 +4,7 @@ require 'libs/Smarty/libs/Smarty.class.php';
 global $smarty;
 //change the default  from some endpoint to
 //whatever mvc end point you prefer
-DEFINE("DEFAULT","NewsFeed" );
+DEFINE("DEFAULT","SomeEndpoint" );
 DEFINE("ERROR","Error" );
 $smarty= new Smarty();
 /*error_reporting(E_ALL);
