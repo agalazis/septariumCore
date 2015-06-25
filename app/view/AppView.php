@@ -67,8 +67,8 @@ abstract class AppView extends core\View
         }
         global $assetTags,$smarty;
         $smarty->assign("HAEDASSETTAGS",$head);
-        $this->title();
- 	return $head;       
+        $this->title();   
+        $smarty->display("app/view/template/Header.tpl");  
     }
     /**
      * loads configuration from ini file
